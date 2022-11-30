@@ -1,0 +1,43 @@
+<div class="dataTables_paginate paging_simple_numbers" *ngIf="pager.pages && pager.pages.length">
+  <div class="float-left">
+    <div>
+      <span class="float-left" style="padding-top: 7px;">Showing {{pager.startIndex + 1}} to {{pager.endIndex + 1}} of {{pager.totalItems}} entries</span>
+    </div>
+  </div>
+
+  <div class="float-right">
+    <ul class="pagination">
+      <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item first-item">
+        <a (click)="setPage(1)" class="page-link">
+          <i class="fas fa-angle-double-left"></i>
+        </a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item previous-item">
+        <a (click)="setPage(pager.currentPage - 1)" class="page-link">
+          <i class="fas fa-angle-left"></i>
+        </a>
+      </li>
+      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" class="page-item number-item">
+        <a (click)="setPage(page)" class="page-link">{{page}}</a>
+      </li>
+
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item next-item">
+        <a (click)="setPage(pager.currentPage + 1)" class="page-link">
+          <i class="fas fa-angle-right"></i>
+        </a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item last-item">
+        <a (click)="setPage(pager.totalPages)" class="page-link">
+          <i class="fas fa-angle-double-right"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="float-right mr-3" style="margin-top: 3px;">
+    <select [(ngModel)]="settings.pageSize" (ngModelChange)="setPage(initialPage)" class="form-control form-control-sm" style="width: 160px;">
+      <option *ngFor="let pageSize of settings.pageSizeOptions" [value]="pageSize">{{pageSize}}</option>
+    </select>
+  </div>
+
+</div>

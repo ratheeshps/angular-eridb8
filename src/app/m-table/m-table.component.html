@@ -1,0 +1,60 @@
+<div class="datatable table-responsive">
+  <div>
+    <div class="row mb-4">
+      <div class="col-sm-12" style="overflow-x: scroll;">
+        <table class="table table-bordered table-hover mb-0" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th *ngFor="let header of headers; let i = index;">
+                <a href="javascript:void(0);"
+                (click)="sort(header)"
+                style="text-decoration: none;">{{settings.columns[header]['title']}}</a>
+
+                <img class="float-right" src="../../../assets/img/sort-up.webp" *ngIf="sortHeader === header && direction" style="width: 18px;" />
+                <img class="float-right" src="../../../assets/img/sort-down.webp" *ngIf="sortHeader === header && !direction" style="width: 18px;" />
+              </th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th *ngFor="let header of headers">{{settings.columns[header]['title']}}</th>
+            </tr>
+          </tfoot>
+          <tbody>
+
+            <tr>
+              <td *ngFor="let header of headers">
+                <input class="form-control form-control-sm"
+                [(ngModel)]="settings.columns[header]['filter']"
+                (ngModelChange)="filterChangeEvent($event, header)"
+                placeholder="{{settings.columns[header]['title']}}"/>
+              </td>
+            </tr>
+
+            <tr *ngFor="let record of pageOfItems">
+              <td *ngFor="let header of headers">
+                <div *ngIf="!settings.columns[header].type" [ngClass]="settings.columns[header].pill ? 'badge badge-primary badge-pill' : ''">
+                  {{record[header]}}
+                </div>
+                <div *ngIf="settings.columns[header].type === 'date'" [ngClass]="settings.columns[header].pill ? 'badge badge-primary badge-pill' : ''">
+                  {{record[header] | date: 'yyyy-mm-dd hh:mm:ss'}}
+                </div>
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="px-4">
+          <app-pagination [items]="dataCopy" [settings]="settings.pager"  (changePage)="onChangePage($event)"></app-pagination>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
